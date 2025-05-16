@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Banking API
+  version: 1.0.0
+  description: API for banking operations
+
+servers:
+  - url: http://localhost:8080/api
+    description: Local server
+
+paths:
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Unauthorized
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        login:
+          type: string
+          example: user@example.com
+        password:
+          type: string
+          example: mySecurePassword123
+      required: [login, password]
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        tokenType:
+          type: string
+          example: Bearer
+        userId:
+          type: integer
+          example: 1
+        email:
+          type: string
+          example: user@example.com
